@@ -84,3 +84,50 @@ def unique_check(text, n1, n2, n3):
             return n2
         else:
             return unique_check(text, n1, top_3_check("{} [NOT in use] ".format(text)), None)
+
+def top_3_check(text):
+    if "Must be a Number" in text:
+        text = "{}".format(text)
+    else:
+        text = "{} (Must be a Number)".format(text)
+    try:
+        num = int(input(str("{}: ".format(text))))
+    except (ValueError, TypeError):
+        top_3_check(text)
+    else:
+        global goalsArr
+        if num < 1:
+            return top_3_check(text)
+        elif num > len(goalsArr):
+            return top_3_check(text)
+        return int(num)
+
+def check_remove():
+    try:
+        remove = int(input(str("> ")))
+    except (TypeError, ValueError):
+        return check_remove()
+    else:
+        if remove < 1:
+            return check_remove()
+        if remove > 3:
+            return check_remove()
+        return remove
+
+def print_list(data):
+    x=1
+    for item in data:
+        print("""#{} - {}""".format(x, item))
+        x+=1
+
+def pick_item():
+    try:
+        add = int(input(str("> ")))
+    except (TypeError, ValueError):
+        return pick_item()
+    else:
+        if add < 1:
+            return pick_item()
+        if add > 2:
+            return pick_item()
+        return add
