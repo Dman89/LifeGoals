@@ -131,3 +131,30 @@ def pick_item():
         if add > 2:
             return pick_item()
         return add
+
+def loaded_file_select_next_step():
+    global run_mode
+    global goalsArr
+    print("""
+    ADD, REPICK, EDIT, REMOVE, LIST, EXIT, or SE to Save and Exit
+    """)
+    option_selected = input(str("> "))
+    clear()
+    if "ADD" in option_selected:
+        add_to_old_file(goalsArr)
+        initiate_priorities(goalsArr)
+    elif "EDIT" in option_selected:
+        edit_priorities()
+    elif "REMOVE" in option_selected:
+        remove_priorities()
+    elif "LIST" in option_selected:
+        list_priorities()
+    elif "REPICK" in option_selected:
+        initiate_priorities(goalsArr)
+    elif "EXIT" in option_selected:
+        run_mode = 0
+        return
+    elif "SE" in option_selected:
+        save_file_life_goals()
+        run_mode = 0
+        return
