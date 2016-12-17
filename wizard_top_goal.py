@@ -158,3 +158,27 @@ def loaded_file_select_next_step():
         save_file_life_goals()
         run_mode = 0
         return
+
+def add_to_old_file(arraY):
+    run = 1
+    print("Enter Life Goals or Leave Blank and Hit Enter to Save and Exit")
+    while (run == 1):
+        goal = input(str("> "))
+        if len(goal) == 0:
+            if "" in goal:
+                run = 0
+        else:
+            arraY.append(goal)
+    global goalsArr
+    goalsArr = arraY
+
+def save_file_life_goals():
+    global username
+    global goalsArr
+    global top_3
+    global top_one
+    global final_ans
+    print(top_one)
+    final_ans = {"top": top_one[0], "top_three": top_3, "list": goalsArr}
+    with open("{}_life_goals.json".format(username), mode="w") as file:
+        json.dump(final_ans, file)
