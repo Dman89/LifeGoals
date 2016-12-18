@@ -182,3 +182,26 @@ def save_file_life_goals():
     final_ans = {"top": top_one[0], "top_three": top_3, "list": goalsArr}
     with open("{}_life_goals.json".format(username), mode="w") as file:
         json.dump(final_ans, file)
+
+def top_3_select_number_one(arraY):
+    top_one = arraY
+    clear()
+    print_list(top_one)
+    p("Remove the least important of the three (1, 2, or 3)")
+    remove_item = check_remove()
+    del top_one[remove_item - 1]
+    clear()
+    print_list(top_one)
+    p("""
+    Pick the Most Important of the Two (1 or 2)
+    """)
+    final_item = pick_item()
+    del top_one[final_item - 1]
+    return top_one
+
+def initiate_priorities(goalsArr):
+    global top_3
+    global top_one
+    selecting_priorities(goalsArr)
+    top_3 = top_3_select(goalsArr)
+    top_one = top_3_select_number_one(top_3[:])
