@@ -205,3 +205,38 @@ def initiate_priorities(goalsArr):
     selecting_priorities(goalsArr)
     top_3 = top_3_select(goalsArr)
     top_one = top_3_select_number_one(top_3[:])
+
+def remove_priorities():
+    global goalsArr
+    selected = display_list_for_edit()
+    x=0
+    for item in goalsArr:
+        if selected in item:
+            del goalsArr[x]
+        x+=1
+
+def edit_priorities():
+    global goalsArr
+    selected = display_list_for_edit()
+    goalsArr = selected_item_to_edit(selected)
+
+def list_priorities():
+    global goalsArr
+    print("""
+    Printing Life Goals
+    """)
+    for item in goalsArr:
+        print(item)
+
+def selected_item_to_edit(selecteD):
+    global goalsArr
+    x=0
+    for item in goalsArr:
+        if selecteD in item:
+            res = input(str("{}  > ".format(selecteD)))
+            if res == "":
+                return goalsArr
+            else:
+                goalsArr[x] = res
+                return goalsArr
+        x+=1
