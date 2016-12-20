@@ -240,3 +240,52 @@ def selected_item_to_edit(selecteD):
                 goalsArr[x] = res
                 return goalsArr
         x+=1
+
+def select_item(arraY):
+    try:
+        num = int(input(str("> ")))
+    except (TypeError, ValueError):
+        return select_item(arraY)
+    else:
+        num -= 1
+        if num >= 0:
+            if num < len(arraY):
+                return arraY[num]
+            else:
+                return select_item(arraY)
+        else:
+            return select_item(arraY)
+
+def display_list_for_edit():
+    global goalsArr
+    x=0
+    item_arr = []
+    for item in goalsArr:
+        x+=1
+        item_arr.append(item)
+        print("#{} - {}".format(x, item))
+    return select_item(item_arr)
+
+def top_3_start(usrnam):
+    global username
+    username = usrnam
+    global goalsArr
+    global final_ans
+    global run_mode
+    global top_one
+    global top_3
+    try:
+        with open("{}_life_goals.json".format(username), "r") as filez:
+            oldGoalsArr = json.load(filez)
+            goalsArr = oldGoalsArr["list"]
+            top_one = oldGoalsArr["top"]
+            top_3 = oldGoalsArr["top_three"]
+    except FileNotFoundError:
+        goalsArr = start_goal_finding()
+        if run_priorities_on == 1:
+            initiate_priorities(goalsArr)
+            save_file_life_goals()
+    else:
+        while (run_mode == 1):
+            loaded_file_select_next_step()
+    return final_ans
