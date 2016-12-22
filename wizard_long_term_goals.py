@@ -14,6 +14,14 @@ long_term_goals={}
 life_goals={}
 file_life_goals = {}
 run_list = 1
+
+def add_to_life_goals(g, i):
+    global long_term_goals
+    x=0
+    for item in long_term_goals:
+        if item["id"] == i:
+            long_term_goals["long"][x]["life_goals"].append(g)
+        x+=1
 def start(u):
     global username
     global subjects
