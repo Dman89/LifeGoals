@@ -22,6 +22,110 @@ def add_to_life_goals(g, i):
         if item["id"] == i:
             long_term_goals["long"][x]["life_goals"].append(g)
         x+=1
+def create_new_set_of_life_goals(linked):
+    return {"id": time.time(), "life_goals": [], "linked": linked}
+def create_long_term_goals(duration, p, m):
+    ltg = {"time": duration, "goals": [], "parent": p, "master": m}
+    return ltg
+def create_long_term_goal(name, sub, rank, impact, progression, value):
+    return {"goal": {"name": name, "subject": sub, "rank": rank, "impact": impact, "progression": progression, "value": value}}
+def create_goal(d, s):
+    global subjects
+    global username
+    print("""\nCreate {} Goals for {}:
+    Type EXIT to stop adding goals for the {} timeframe\n\n    Name:""".format(d, s, d))
+    name = functions.get_input()
+    if "EXIT" not in name:
+        print("Subject:")
+        subject = functions.get_input()
+        if "EXIT" not in subject:
+            new_subject = search_for_subject(subject, subjects)
+            if new_subject == True:
+                print("Subject Value (1 - 100):")
+                subrank = is_max(100)
+            else:
+                subrank = new_subject
+            sub = {"rank": subrank, "name": subject}
+            if new_subject == True:
+                subjects.append(sub)
+            print("Rank (1 - 10):")
+            rank = is_max(10)
+            if rank >= 0:
+                print("Impact (1 - 10):")
+                impact = is_max(10)
+                if impact >= 0:
+                    print("Progression (1 - 100):")
+                    progression = is_max(100)
+                    if progression >= 0:
+                        value = compute_value(subrank, rank, impact, progression)
+                        goal = create_long_term_goal(name, sub, rank, impact, progression, value)
+                        return goal
+    return False
+def create_goals(l):
+    global master
+    global long_term_goals
+    linked = l
+    life_goals = create_new_set_of_life_goals(l)
+    print_alert_of_new_loop("Ten Year")
+    tenyr = create_long_term_goals("tenyr", "", "")
+    tenyr["goals"] = create_goals_loop("Ten Year", l)
+    master = create_master_goal_loop(tenyr["goals"])
+    fiveyr = create_child_goal_loop("Five Year", "fiveyr", l)
+    threeyr = create_parent_goal_loop("Three Year", "threeyr", l, fiveyr)
+    twoyr = create_parent_goal_loop("Two Year", "twoyr", l, threeyr)
+    oneyr = create_parent_goal_loop("One Year", "oneyr", l, twoyr)
+    sixmnth = create_parent_goal_loop("Six Months", "sixmnth", l, oneyr)
+    threemnth = create_parent_goal_loop("Three Months", "threemnth", l, sixmnth)
+    onemnth = create_parent_goal_loop("One Months", "onemnth", l, threemnth)
+    life_goals["life_goals"].append(tenyr)
+    life_goals["life_goals"].append(fiveyr)
+    life_goals["life_goals"].append(threeyr)
+    life_goals["life_goals"].append(twoyr)
+    life_goals["life_goals"].append(oneyr)
+    life_goals["life_goals"].append(sixmnth)
+    life_goals["life_goals"].append(threemnth)
+    life_goals["life_goals"].append(onemnth)
+    long_term_goals["long"].append(life_goals)
+def create_goals_loop(d, s):
+    run = 1
+    arr = []
+    x=0
+    while (run == 1):
+        x+=1
+        goal = create_goal(d, s)
+        if goal == False:
+            run = 0
+            if x == 1:
+                return create_goal(d, s)
+        else:
+            arr.append(goal)
+    clear()
+    return arr
+def create_child_goal_loop(n, d, l):
+    global master
+    p = ""
+    long_term_goal = {"goals": []}
+    for item in master:
+        print_alert_of_new_loop(n)
+        print_alert_of_new_loop_parent(item, item)
+        long_term_goal = create_long_term_goals(d, item, item)
+        long_term_goal["goals"] = create_goals_loop(n, l)
+    return long_term_goal
+def create_parent_goal_loop(n, d, l, arraY):
+    long_term_goal = {"goals": []}
+    m=arraY["master"]
+    for item in arraY["goals"]:
+        p=item["goal"]["name"]
+        print_alert_of_new_loop(n)
+        print_alert_of_new_loop_parent(m, p)
+        long_term_goal = create_long_term_goals(d, p, m)
+        long_term_goal["goals"].extend(create_goals_loop(n, l))
+    return long_term_goal
+def create_master_goal_loop(arraY):
+    arr = []
+    for item in arraY:
+        arr.append(item["goal"]["name"])
+    return (arr)
 def start(u):
     global username
     global subjects
