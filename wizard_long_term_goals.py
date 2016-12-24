@@ -141,3 +141,26 @@ def start(u):
     else:
         select_linked()
         # Go Through Walk Through Wizard
+def save_file(u):
+    global long_term_goals
+    with open("{}_long_term.json".format(u), mode="w") as file:
+        json.dump(long_term_goals, file)
+        print("""
+    Saved File...
+        """)
+def save_file_subjects(u):
+    global subjects
+    data = subjects
+    with open("{}_subjects.json".format(u), mode="w") as file:
+        json.dump({"subjects": data}, file)
+        print("""
+    Saved File...
+        """)
+def select_linked():
+    global long_term_goals
+    global file_life_goals
+    global username
+    select = list_n_choose_file_life_goals()
+    create_goals(select)
+    save_file(username)
+    save_file_subjects(username)
