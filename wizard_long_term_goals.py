@@ -164,3 +164,46 @@ def select_linked():
     create_goals(select)
     save_file(username)
     save_file_subjects(username)
+def list_life_goal():
+    global long_term_goals
+    print(long_term_goals, "\n\n\n")
+    for item in long_term_goals["long"]:
+        print(item, "\n\n\n")
+        for ite in item["life_goals"]:
+            print(ite)
+def list_options():
+    global username
+    global run_list
+    print("""
+    Enter ADD, EDIT, REMOVE, LIST, SAVE, EXIT, or SE (Save and Exit)
+    """)
+    option = input(str(">  "))
+    if "ADD" in option:
+        add_life_goal()
+    elif "EDIT" in option:
+        edit_life_goal()
+    elif "REMOVE" in option:
+        remove_life_goal()
+    elif "LIST" in option:
+        list_life_goal()
+    elif "SAVE" in option:
+        save_file(username)
+        save_file_subjects(username)
+    elif "EXIT" in option:
+        run_list = 1
+    elif "SE" in option:
+        save_file(username)
+        save_file_subjects(username)
+        run_list = 1
+def list_n_choose_file_life_goals():
+    global file_life_goals
+    x=0
+    z=0
+    for item in file_life_goals["list"]:
+        x+=1
+        if item == file_life_goals["top"]:
+            z = x
+        print("""#{} - {}""".format(x, item))
+    print("We recommend setting up long term goals for {} - #{}".format(file_life_goals["top"], z))
+    selection = is_max(len(file_life_goals["list"]))
+    return file_life_goals["list"][selection]
