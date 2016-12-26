@@ -207,3 +207,36 @@ def list_n_choose_file_life_goals():
     print("We recommend setting up long term goals for {} - #{}".format(file_life_goals["top"], z))
     selection = is_max(len(file_life_goals["list"]))
     return file_life_goals["list"][selection]
+def load_file_life_goals(u):
+    global file_life_goals
+    with open("{}_life_goals.json".format(u), "r") as fi:
+        file_life_goals = json.load(fi)
+        print("""
+    Life Goals File Loaded
+        """)
+def load_file(u):
+    global long_term_goals
+    try:
+        with open("{}_long_term.json".format(u), "r") as fi:
+            long_term_goals = json.load(fi)
+            print("""
+    Long Term Goals File Loaded
+            """)
+            return True
+    except FileNotFoundError:
+        long_term_goals = {"long": []}
+        print("""
+    File Created
+        """)
+        return False
+def load_file_of_life_goals(u):
+    global life_goals
+    try:
+        with open("{}_life_goals.json".format(u), "r") as fi:
+            life_goals = json.load(fi)
+            print("""
+    File Loaded
+            """)
+            return True
+    except FileNotFoundError:
+        return False
