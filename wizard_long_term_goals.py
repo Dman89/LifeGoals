@@ -240,3 +240,33 @@ def load_file_of_life_goals(u):
             return True
     except FileNotFoundError:
         return False
+def print_alert_of_new_loop(n):
+    print("""
+
+            *> {} <*
+
+    """.format(n))
+def print_alert_of_new_loop_parent(m, p):
+    print("""
+
+            *> In {} for {} <*
+
+    """.format(m, p))
+def print_goals(ltgs):
+    x=0
+    arr = []
+    for ltg in ltgs["goals"]:
+        x+=1
+        arr.append(ltg["goal"]["name"])
+        print("     *-> {} <-*     ".format(x))
+        print_goal(ltg, ltgs["master"], ltgs["parent"])
+        print("     *-> {} <-*     ".format(x))
+    return arr
+def print_goal(ltg, m, p):
+    value = (ltg["goal"]["value"] / 10000)
+    print("""Name: {}
+    Value: {}
+        Subject: {}
+            Master: {}
+                Parent: {}
+        """.format(ltg["goal"]["name"], value, ltg["goal"]["subject"]["name"], m, p))
